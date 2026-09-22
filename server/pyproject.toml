@@ -1,0 +1,75 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard]>=0.141.1",
+]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.16.8",
+]
+
+
+# formatting, linting configuration
+[tool.ruff]
+line-length = 120
+indent-width = 4
+
+# Ruff can infer this from project.requires-python.
+# Set it explicitly only if required:
+# target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E4",  # Import-related pycodestyle errors
+    "E7",  # Statement-related pycodestyle errors
+    "E9",  # Runtime and syntax errors
+    "F",   # Pyflakes
+    "I",   # Import sorting
+    "B",   # flake8-bugbear
+    "UP",  # Python syntax upgrades
+    "SIM", # Code simplification
+]
+
+ignore = [
+    "E501", # Ruff formatter handles line wrapping
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["src"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false
+docstring-code-format = true
+
+#Type checking with mypy
+[tool.mypy]
+python_version = "3.12"
+check_untyped_defs = true
+disallow_untyped_defs = true
+warn_return_any = true
+warn_unused_ignores = true
+no_implicit_optional = true
+ignore_missing_imports = true # Useful when some dependencies don't provide type definitions.
+
+#Testing
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+]
